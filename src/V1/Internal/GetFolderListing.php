@@ -44,6 +44,8 @@
 namespace GanbaroDigital\LocalFilesystem\V1\Internal;
 
 use FilesystemIterator;
+use GanbaroDigital\Filesystem\V1\PathInfo;
+use GanbaroDigital\Filesystem\V1\TypeConverters;
 use GanbaroDigital\LocalFilesystem\V1\LocalFileInfo;
 use GanbaroDigital\MissingBits\ErrorResponders\OnFailure;
 
@@ -54,7 +56,7 @@ class GetFolderListing
 {
     /**
      * what's in a given folder?
-     * @param  string   $fullPath
+     * @param  string|PathInfo $fullPath
      *         the folder we want to look inside
      * @param  OnFailure $onFailure
      *         what to do if we can't look inside the folder
@@ -62,14 +64,17 @@ class GetFolderListing
      *         the folder's contents, as a string of filenames, or
      *         whatever $onFailure returns otherwise
      */
-    public static function from(string $fullPath, OnFailure $onFailure) : array
+    public static function from($fullPath, OnFailure $onFailure) : array
     {
+        // what are we looking at?
+        $pathInfo = TypeConverters\ToPathInfo::from($fullPath);
+
         // can we make an iterator?
         try {
-            $iterator = new FilesystemIterator($fullPath);
+            $iterator = new FilesystemIterator($pathInfo->getFullPath());
         }
         catch (\Exception $e) {
-            return $onFailure($fullPath, $e->getMessage());
+            return $onFailure($pathInfo->getPrefixedPath(), $e->getMessage());
         }
 
         // what's in the folder?

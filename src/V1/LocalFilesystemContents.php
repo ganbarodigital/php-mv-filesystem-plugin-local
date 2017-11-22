@@ -46,6 +46,8 @@ namespace GanbaroDigital\LocalFilesystem\V1;
 use GanbaroDigital\Filesystem\V1\Checks;
 use GanbaroDigital\Filesystem\V1\FileInfo;
 use GanbaroDigital\Filesystem\V1\FilesystemContents;
+use GanbaroDigital\Filesystem\V1\PathInfo;
+use GanbaroDigital\Filesystem\V1\TypeConverters;
 use GanbaroDigital\LocalFilesystem\V1\Internal;
 use GanbaroDigital\MissingBits\ErrorResponders\OnFailure;
 use GanbaroDigital\MissingBits\ErrorResponders\OnFatal;
@@ -68,10 +70,10 @@ class LocalFilesystemContents extends LocalFileInfo implements FilesystemContent
      *
      * @param LocalFilesystem $fs
      *        the filesystem we represent
-     * @param string $fullPath
+     * @param string|PathInfo $fullPath
      *        the path to the folder that we represent
      */
-    public function __construct(LocalFilesystem $fs, string $fullPath)
+    public function __construct(LocalFilesystem $fs, $fullPath)
     {
         $this->fs = $fs;
         parent::__construct($fullPath);

@@ -43,6 +43,8 @@
 
 namespace GanbaroDigital\LocalFilesystem\V1\Internal;
 
+use GanbaroDigital\Filesystem\V1\PathInfo;
+use GanbaroDigital\Filesystem\V1\TypeConverters;
 use GanbaroDigital\LocalFilesystem\V1\LocalFileInfo;
 use GanbaroDigital\MissingBits\ErrorResponders\OnFatal;
 use SplFileInfo;
@@ -55,24 +57,26 @@ class GetFileInfo
     /**
      * create a new LocalFileInfo object from a path
      *
-     * @param  string $fullPath
+     * @param  string|PathInfo $fullPath
      *         the path we want more information about
      * @param  OnFatal $onFatal
      *         what do we do if there's a problem?
      * @return LocalFileInfo
      */
-    public static function for(string $fullPath, OnFatal $onFatal) : LocalFileInfo
+    public static function for($fullPath, OnFatal $onFatal) : LocalFileInfo
     {
+        $pathInfo = TypeConverters\ToPathInfo::from($fullPath);
+
         // does it exist?
         try {
-            $rawFileInfo = new SplFileInfo($fullPath);
+            $rawFileInfo = new SplFileInfo($pathInfo->getFullPath());
         }
         catch (\Exception $e) {
             // it does not, and we do not know why
-            throw $onFatal($fullPath, $e->getMessage());
+            throw $onFatal($pathInfo->getPrefixedPath(), $e->getMessage());
         }
 
         // success!
-        return new LocalFileInfo($fullPath, $rawFileInfo);
+        return new LocalFileInfo($pathInfo, $rawFileInfo);
     }
 }

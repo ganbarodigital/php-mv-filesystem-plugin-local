@@ -43,6 +43,7 @@
 
 namespace GanbaroDigital\LocalFilesystem\V1;
 
+use GanbaroDigital\Filesystem\V1\PathInfo;
 use GanbaroDigital\Filesystem\V1\FileInfo;
 use SplFileInfo;
 
@@ -71,7 +72,7 @@ class LocalFileInfo extends LocalPathInfo implements FileInfo
         parent::__construct($fullPath);
 
         if ($fileInfo === null) {
-            $fileInfo = new SplFileInfo($this->fullPath);
+            $fileInfo = new SplFileInfo($this->fsPath);
         }
         $this->fileInfo = $fileInfo;
     }

@@ -46,6 +46,7 @@ namespace GanbaroDigital\LocalFilesystem\V1\Iterators;
 use GanbaroDigital\AdaptersAndPlugins\V1\PluginTypes\PluginClass;
 use GanbaroDigital\Filesystem\V1\Iterators\FilesystemContentsIterator;
 use GanbaroDigital\Filesystem\V1\Iterators\RecursiveFilesystemContentsIterator;
+use GanbaroDigital\Filesystem\V1\PathInfo;
 use GanbaroDigital\LocalFilesystem\V1\LocalFilesystem;
 use GanbaroDigital\MissingBits\ErrorResponders\OnFatal;
 use RecursiveIterator;
@@ -60,14 +61,14 @@ class GetContentsIterator implements PluginClass
      *
      * @param  LocalFilesystem $fs
      *         our filesystem
-     * @param  string $path
+     * @param  PathInfo $path
      *         where we want to search from
      * @param  OnFatal $onFatal
      *         what do we do if we cannot create the iterator?
      * @return RecursiveIterator
      *         the iterator to use
      */
-    public static function for(LocalFilesystem $fs, string $path, OnFatal $onFatal) : RecursiveIterator
+    public static function for(LocalFilesystem $fs, PathInfo $path, OnFatal $onFatal) : RecursiveIterator
     {
         $contents = $fs->getFolder($path, $onFatal);
         $flags = FilesystemContentsIterator::KEY_AS_FULLPATH

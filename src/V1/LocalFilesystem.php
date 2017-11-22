@@ -46,6 +46,8 @@ namespace GanbaroDigital\LocalFilesystem\V1;
 use GanbaroDigital\Filesystem\V1\FileInfo;
 use GanbaroDigital\Filesystem\V1\Filesystem;
 use GanbaroDigital\Filesystem\V1\FilesystemContents;
+use GanbaroDigital\Filesystem\V1\PathInfo;
+use GanbaroDigital\Filesystem\V1\TypeConverters;
 use GanbaroDigital\LocalFilesystem\V1\Internal;
 use GanbaroDigital\MissingBits\ErrorResponders\OnFatal;
 
@@ -58,39 +60,45 @@ class LocalFilesystem implements Filesystem
     /**
      * retrieve a folder from the filesystem
      *
-     * @param  string $fullPath
+     * @param  string|PathInfo $fullPath
      *         path to the folder
      * @param  OnFatal $onFatal
      *         what do we do if we do not have the folder?
      * @return FilesystemContents
      */
-    public function getFolder(string $fullPath, OnFatal $onFatal) : FilesystemContents
+    public function getFolder($fullPath, OnFatal $onFatal) : FilesystemContents
     {
+        // what are we looking at?
+        $pathInfo = TypeConverters\ToPathInfo::from($fullPath);
+
         // does it exist?
-        if (!is_dir($fullPath)) {
-            throw $onFatal($fullPath, "folder not found");
+        if (!is_dir($pathInfo->getFullPath())) {
+            throw $onFatal($pathInfo->getPrefixedPath(), "folder not found");
         }
 
-        return new LocalFilesystemContents($this, $fullPath);
+        return new LocalFilesystemContents($this, $pathInfo);
     }
 
     /**
      * get detailed information about something on the filesystem
      *
-     * @param  string $fullPath
+     * @param  string|PathInfo $fullPath
      *         the full path to the thing you are interested in
      * @param  OnFatal $onFailure
      *         what do we do if we do not have it?
      * @return FileInfo
      */
-    public function getFileInfo(string $fullPath, OnFatal $onFatal) : FileInfo
+    public function getFileInfo($fullPath, OnFatal $onFatal) : FileInfo
     {
-        if (is_dir($fullPath)) {
-            return $this->getFolder($fullPath, $onFatal);
+        // what are we looking at?
+        $pathInfo = TypeConverters\ToPathInfo::from($fullPath);
+
+        if (is_dir($pathInfo->getFullPath())) {
+            return $this->getFolder($pathInfo, $onFatal);
         }
 
         return Internal\GetFileInfo::for(
-            $fullPath,
+            $pathInfo,
             $onFatal
         );
     }
