@@ -14,3 +14,5 @@
 * Added internal helpers
   - added `GetFileInfo`
   - added `GetFolderListing`
+* Added support for iterating over the local filesystem
+  - added `GetContentsIterator`
