@@ -8,3 +8,4 @@
   - added `LocalPathInfo`
   - added `LocalFileInfo`
   - added `LocalFilesystem`
+  - added `LocalFilesystemContents`
