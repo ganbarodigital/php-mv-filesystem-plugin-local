@@ -11,3 +11,5 @@
   - added `LocalFilesystemContents`
 * Added support for converting to the local FileInfo type
   - added `TypeConverters\ToFileInfo`
+* Added internal helpers
+  - added `GetFileInfo`
