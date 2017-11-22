@@ -47,6 +47,7 @@ use GanbaroDigital\Filesystem\V1\Checks;
 use GanbaroDigital\Filesystem\V1\FileInfo;
 use GanbaroDigital\Filesystem\V1\FilesystemContents;
 use GanbaroDigital\LocalFilesystem\V1\Internal;
+use GanbaroDigital\MissingBits\ErrorResponders\OnFailure;
 use GanbaroDigital\MissingBits\ErrorResponders\OnFatal;
 
 use RuntimeException;
@@ -83,7 +84,7 @@ class LocalFilesystemContents extends LocalFileInfo implements FilesystemContent
      */
     public function getFilenames() : array
     {
-        $onFailure = function() { return []; };
+        $onFailure = new OnFailure(function() { return []; });
         return Internal\GetFolderListing::from(
             $this->getFullPath(),
             $onFailure

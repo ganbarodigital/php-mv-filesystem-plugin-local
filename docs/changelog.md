@@ -13,3 +13,4 @@
   - added `TypeConverters\ToFileInfo`
 * Added internal helpers
   - added `GetFileInfo`
+  - added `GetFolderListing`
