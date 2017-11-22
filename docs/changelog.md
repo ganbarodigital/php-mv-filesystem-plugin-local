@@ -7,3 +7,4 @@
 * Added values to represent things on the filesystem
   - added `LocalPathInfo`
   - added `LocalFileInfo`
+  - added `LocalFilesystem`
