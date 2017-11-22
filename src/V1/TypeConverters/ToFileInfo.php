@@ -44,8 +44,10 @@
 namespace GanbaroDigital\LocalFilesystem\V1\TypeConverters;
 
 use GanbaroDigital\AdaptersAndPlugins\V1\PluginTypes\PluginClass;
+use GanbaroDigital\LocalFilesystem\V1\Internal\GetFileInfo;
 use GanbaroDigital\LocalFilesystem\V1\LocalFileInfo;
 use GanbaroDigital\LocalFilesystem\V1\LocalFilesystem;
+use GanbaroDigital\MissingBits\ErrorResponders\OnFatal;
 
 class ToFileInfo implements PluginClass
 {
@@ -56,9 +58,11 @@ class ToFileInfo implements PluginClass
      *         the filesystem that $path lives on
      * @param  string|LocalFileInfo $path
      *         the path that we want to convert
+     * @param  OnFatal $onFatal
+     *         what do we do if we cannot do the type conversion?
      * @return LocalFileInfo
      */
-    public static function from(LocalFilesystem $fs, $path) : LocalFileInfo
+    public static function from(LocalFilesystem $fs, $path, OnFatal $onFatal) : LocalFileInfo
     {
         // does it need converting?
         if ($path instanceof LocalFileInfo) {
@@ -67,6 +71,6 @@ class ToFileInfo implements PluginClass
         }
 
         // it needs converting
-        return new LocalFileInfo((string)$path);
+        return Internal\GetFileInfo::for($path, $onFatal);
     }
 }
