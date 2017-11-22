@@ -58,6 +58,27 @@ use GanbaroDigital\MissingBits\ErrorResponders\OnFatal;
 class LocalFilesystem implements Filesystem
 {
     /**
+     * our constructor
+     *
+     * @param string $fsPrefix
+     *        the prefix that paths on filesystem will use
+     */
+    public function __construct(string $fsPrefix)
+    {
+        $this->fsPrefix = $fsPrefix;
+    }
+
+    /**
+     * which prefix should we use for paths on this filesystem?
+     *
+     * @return string
+     */
+    public function getFilesystemPrefix() : string
+    {
+        return $this->fsPrefix;
+    }
+
+    /**
      * retrieve a folder from the filesystem
      *
      * @param  string|PathInfo $fullPath
