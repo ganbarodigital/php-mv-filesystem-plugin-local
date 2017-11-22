@@ -1,5 +1,5 @@
 {
-    "name": "ganbarodigital/php-mv-local-filesystem",
+    "name": "ganbarodigital/php-mv-filesystem-plugin-local",
     "type": "library",
     "license": "BSD-3-Clause",
     "authors": [
