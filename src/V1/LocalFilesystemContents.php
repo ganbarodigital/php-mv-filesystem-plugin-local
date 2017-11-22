@@ -88,7 +88,7 @@ class LocalFilesystemContents extends LocalFileInfo implements FilesystemContent
     {
         $onFailure = new OnFailure(function() { return []; });
         return Internal\GetFolderListing::from(
-            $this->getFullPath(),
+            $this,
             $onFailure
         );
     }
@@ -103,7 +103,7 @@ class LocalFilesystemContents extends LocalFileInfo implements FilesystemContent
      */
     public function getFileInfo(string $filename, OnFatal $onFatal) : FileInfo
     {
-        $fullPath = $this->getFullPath() . '/' . $filename;
+        $fullPath = $this->getPrefixedPath() . '/' . $filename;
         $retval = $this->fs->getFileInfo($fullPath, $onFatal);
 
         return $retval;
