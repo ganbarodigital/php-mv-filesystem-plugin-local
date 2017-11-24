@@ -16,3 +16,5 @@
   - added `GetFolderListing`
 * Added support for iterating over the local filesystem
   - added `GetContentsIterator`
+* Added support for creating the local filesystem via a factory
+  - added `LocalFilesystemFactory`
