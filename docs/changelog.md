@@ -20,3 +20,4 @@
   - added `LocalFilesystemFactory`
 * Added basic filesystem operations
   - added `GetFileContents` operation
+  - added `PutFileContents` operation
