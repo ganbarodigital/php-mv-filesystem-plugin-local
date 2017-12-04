@@ -18,3 +18,5 @@
   - added `GetContentsIterator`
 * Added support for creating the local filesystem via a factory
   - added `LocalFilesystemFactory`
+* Added basic filesystem operations
+  - added `GetFileContents` operation
