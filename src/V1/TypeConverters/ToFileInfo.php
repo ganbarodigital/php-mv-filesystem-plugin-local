@@ -44,7 +44,7 @@
 namespace GanbaroDigital\LocalFilesystem\V1\TypeConverters;
 
 use GanbaroDigital\AdaptersAndPlugins\V1\PluginTypes\PluginClass;
-use GanbaroDigital\LocalFilesystem\V1\Internal\GetFileInfo;
+use GanbaroDigital\LocalFilesystem\V1\Internal;
 use GanbaroDigital\LocalFilesystem\V1\LocalFileInfo;
 use GanbaroDigital\LocalFilesystem\V1\LocalFilesystem;
 use GanbaroDigital\MissingBits\ErrorResponders\OnFatal;
