@@ -212,4 +212,17 @@ class LocalFileInfo extends LocalPathInfo implements FileInfo
     {
         return $this->fileInfo->isWritable();
     }
+
+    /**
+     * what is the checksum for this file?
+     *
+     * ETags are a common technique to tell if a file has changed anywhere
+     * or not
+     *
+     * @return string
+     */
+    public function getETag() : string
+    {
+        return md5_file($this->getFullPath());
+    }
 }
