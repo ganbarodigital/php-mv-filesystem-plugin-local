@@ -43,6 +43,7 @@
 
 namespace GanbaroDigital\LocalFilesystem\V1;
 
+use DateTime;
 use GanbaroDigital\Filesystem\V1\PathInfo;
 use GanbaroDigital\Filesystem\V1\FileInfo;
 use SplFileInfo;
@@ -224,5 +225,15 @@ class LocalFileInfo extends LocalPathInfo implements FileInfo
     public function getETag() : string
     {
         return md5_file($this->getFullPath());
+    }
+
+    /**
+     * when was this file last modified?
+     *
+     * @return DateTime
+     */
+    public function getLastModified() : DateTime
+    {
+        return DateTime::createFromFormat("U", $this->fileInfo->getMTime());
     }
 }
