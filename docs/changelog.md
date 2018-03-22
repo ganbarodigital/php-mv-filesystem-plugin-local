@@ -22,6 +22,8 @@
   - added `GetFileContents` operation
   - added `PutFileContents` operation
   - added `Unlink` operation
+* Added useful file operations
+  - added `GetImageDimensions` operation
 * Added support for key/value pair metadata
   - added `GetFileMetadata` operation
   - added `PutFileMetadata` operation
