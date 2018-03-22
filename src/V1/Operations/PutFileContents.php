@@ -44,6 +44,7 @@ namespace GanbaroDigital\LocalFilesystem\V1\Operations;
 use GanbaroDigital\AdaptersAndPlugins\V1\PluginTypes\PluginClass;
 use GanbaroDigital\Filesystem\V1\Checks;
 use GanbaroDigital\Filesystem\V1\TypeConverters;
+use GanbaroDigital\LocalFilesystem\V1\Internal;
 use GanbaroDigital\LocalFilesystem\V1\LocalFilesystem;
 use GanbaroDigital\MissingBits\ErrorResponders\OnFatal;
 
@@ -72,6 +73,18 @@ class PutFileContents implements PluginClass
 
         if (Checks\IsFolder::check($fs, $pathInfo)) {
             throw $onFatal("already exists, is a folder");
+        }
+
+        // quick check - do we already have this content?
+        //
+        // we may be writing to a very slow / oversubscribed device,
+        // such as NFS.
+        // we may be writing to a replicating folder, managed by Dropbox
+        // or equivalent.
+        //
+        // we want to avoid writes where we can
+        if (Internal\IsDuplicateContent::check($pathInfo->getFullPath(), $contents)) {
+            return;
         }
 
         // TODO: add robustness
