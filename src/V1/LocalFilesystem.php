@@ -119,6 +119,7 @@ class LocalFilesystem implements Filesystem
         }
 
         return Internal\GetFileInfo::for(
+            $this,
             $pathInfo,
             $onFatal
         );

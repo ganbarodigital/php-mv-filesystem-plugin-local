@@ -46,6 +46,8 @@ namespace GanbaroDigital\LocalFilesystem\V1\Internal;
 use GanbaroDigital\Filesystem\V1\PathInfo;
 use GanbaroDigital\Filesystem\V1\TypeConverters;
 use GanbaroDigital\LocalFilesystem\V1\LocalFileInfo;
+use GanbaroDigital\LocalFilesystem\V1\LocalFilesystem;
+use GanbaroDigital\LocalFilesystem\V1\Operations;
 use GanbaroDigital\MissingBits\ErrorResponders\OnFatal;
 use SplFileInfo;
 
@@ -63,7 +65,7 @@ class GetFileInfo
      *         what do we do if there's a problem?
      * @return LocalFileInfo
      */
-    public static function for($fullPath, OnFatal $onFatal) : LocalFileInfo
+    public static function for(LocalFilesystem $fs, $fullPath, OnFatal $onFatal) : LocalFileInfo
     {
         $pathInfo = TypeConverters\ToPathInfo::from($fullPath);
 
@@ -77,6 +79,7 @@ class GetFileInfo
         }
 
         // success!
-        return new LocalFileInfo($pathInfo, $rawFileInfo);
+        $metadata = Operations\GetFileMetadata::using($fs, $fullPath, $onFatal);
+        return new LocalFileInfo($pathInfo, $rawFileInfo, $metadata);
     }
 }

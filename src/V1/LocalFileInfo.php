@@ -61,14 +61,23 @@ class LocalFileInfo extends LocalPathInfo implements FileInfo
     protected $fileInfo;
 
     /**
+     * additional metadata about this file
+     *
+     * @var array
+     */
+    protected $metadata;
+
+    /**
      * our constructor
      *
      * @param string $fullPath
      *        the filesystem path that we represent
      * @param SplFileInfo|null $fileInfo
      *        a pre-existing SplFileInfo
+     * @param array $metadata
+     *        additional metadata about this file
      */
-    public function __construct(string $fullPath, SplFileInfo $fileInfo = null)
+    public function __construct(string $fullPath, SplFileInfo $fileInfo = null, array $metadata = [])
     {
         parent::__construct($fullPath);
 
@@ -76,6 +85,8 @@ class LocalFileInfo extends LocalPathInfo implements FileInfo
             $fileInfo = new SplFileInfo($this->fsPath);
         }
         $this->fileInfo = $fileInfo;
+
+        $this->metadata = $metadata;
     }
 
     /**
@@ -225,6 +236,18 @@ class LocalFileInfo extends LocalPathInfo implements FileInfo
     public function getETag() : string
     {
         return md5_file($this->getFullPath());
+    }
+
+    /**
+     * what additional info do we know about the file?
+     *
+     * the contents are filesystem-specific!
+     *
+     * @return array
+     */
+    public function getMetadata(): array
+    {
+        return $this->metadata;
     }
 
     /**

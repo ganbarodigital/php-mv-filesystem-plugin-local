@@ -34,43 +34,36 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   LocalFilesystem\V1\TypeConverters
+ * @package   LocalFilesystem\V1\Internal
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2017-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://ganbarodigital.github.io/php-mv-filesystem-plugin-local
  */
 
-namespace GanbaroDigital\LocalFilesystem\V1\TypeConverters;
+namespace GanbaroDigital\LocalFilesystem\V1\Internal;
 
-use GanbaroDigital\AdaptersAndPlugins\V1\PluginTypes\PluginClass;
-use GanbaroDigital\LocalFilesystem\V1\Internal;
+use GanbaroDigital\Filesystem\V1\PathInfo;
+use GanbaroDigital\Filesystem\V1\TypeConverters;
 use GanbaroDigital\LocalFilesystem\V1\LocalFileInfo;
-use GanbaroDigital\LocalFilesystem\V1\LocalFilesystem;
 use GanbaroDigital\MissingBits\ErrorResponders\OnFatal;
+use SplFileInfo;
 
-class ToFileInfo implements PluginClass
+/**
+ * where will the metadata for a file be stored?
+ */
+class GetMetadataPathInfo
 {
     /**
-     * convert a path into a LocalFileInfo value
+     * where will the metadata for a file be stored?
      *
-     * @param  LocalFilesystem $fs
-     *         the filesystem that $path lives on
-     * @param  string|LocalFileInfo $path
-     *         the path that we want to convert
-     * @param  OnFatal $onFatal
-     *         what do we do if we cannot do the type conversion?
-     * @return LocalFileInfo
+     * @param  string|PathInfo $fullPath
+     *         path to the file we want metadata for
+     * @return PathInfo
      */
-    public static function from(LocalFilesystem $fs, $path, OnFatal $onFatal) : LocalFileInfo
+    public static function for($fullPath) : PathInfo
     {
-        // does it need converting?
-        if ($path instanceof LocalFileInfo) {
-            // no, it does not
-            return $path;
-        }
-
-        // it needs converting
-        return Internal\GetFileInfo::for($fs, $path, $onFatal);
+        $pathInfo = TypeConverters\ToPathInfo::from($fullPath);
+        return TypeConverters\ToPathInfo::from($pathInfo->getPrefixedPath() . '.meta');
     }
 }
